@@ -15,6 +15,7 @@ import java.util.Comparator;
  * @author BrunoLG <bruno_lg1998@hotmail.com>
  */
 public class Db {
+   
     public static ArrayList<Question> getQuestions(){
         ArrayList<Question> questions = new ArrayList<>();
         questions.add(new Question ("1+0?", "1", new String[]{"1","2","3","4"}));
@@ -28,11 +29,14 @@ public class Db {
         questions.add(new Question ("3-2?", "1", new String[]{"1","2","3","4"}));
         questions.add(new Question ("4-2?", "2", new String[]{"1","2","3","4"}));
         
+        Collections.shuffle(questions);
+        
         return questions;
     }
     
+    private static final ArrayList<Historic> historics = new ArrayList<>();
+    
     public static ArrayList<Historic> getHistoric(){
-        ArrayList<Historic> historics = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         
         if (historics.isEmpty()){          
@@ -88,7 +92,7 @@ public class Db {
         Collections.sort(historics, new Comparator<Historic>() {
             @Override
             public int compare(Historic h1, Historic h2) {
-                if (h1.getResult() < h2.getResult()) {
+                if (h1.getResult() > h2.getResult()) {
                     return -1;
                 } else if(h1.getResult() == h2.getResult()){ 
                     return 0;
