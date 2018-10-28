@@ -4,6 +4,7 @@
     Author     : BrunoLG <bruno_lg1998@hotmail.com>
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="br.com.fatecpg.quiz.Historic"%>
@@ -96,8 +97,9 @@
                 </div>
             </div>                      
             <center>
-                <% if (Db.searchArrayList(user) == true){ %>
-                    <h2>Média: <%= result/i %></h2>
+                <% if (Db.searchArrayList(user) == true){ 
+                    DecimalFormat dF = new DecimalFormat("#.#"); %>
+                    <h2>Média: <%= dF.format(result/i) %></h2>
                     <a class="btn btn-primary mb-4" href="quiz.jsp" role="button">Realizar Quiz</a>
                 <% } %>              
                 <a class="btn btn-secondary mb-4" href="logout.jsp" role="button">Log Out</a>

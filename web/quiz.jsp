@@ -13,45 +13,55 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Quiz Page</title>
+        <%@include file="WEB-INF/jspf/head.jspf" %>
     </head>
     <body>
         <%  String user = (String) session.getAttribute("user");
-            if (user ==  null || user == ""){
+            if (user == null || user == ""){
                 response.sendRedirect("index.jsp");
             } else { %>
                 <h1>Quiz</h1>
                 <% if (request.getParameter("send") != null){ 
                     double result = 0;
+                    
                     for (Question q: Db.getQuestions()){
                         String userAnswer = request.getParameter(q.getQuestion());
                         if(userAnswer.equals(q.getAnswer())){
                             result++;
                         }
                     }
+                    
+                    
                     Calendar calendar = Calendar.getInstance();
-                    calendar.set(calendar.get(Calendar.DATE), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR),
+                    calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
                                              calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE));
 
                     Historic h = new Historic(user, result, calendar.getTime());
-                    Db.getHistoric().add(h);
+                    Db.getHistoric().add(new Historic(user, result, calendar.getTime()));
                 %>
-                <hr><hr>
                 <h1 style="color:blue">
-                    Nota: <u><%= ((result)/10.0) %></u>
+                    Nota: <u><%= (result) %></u>
                 </h1>
                 <% } %>
                 <h2>Test</h2>
-                <form>
-                    <% for(Question q: Db.getQuestions()){ %>
-                        <h3>Question: <%= q.getQuestion() %></h3>
-                            <% for(int i=0; i<q.getAlternatives().length; i++){ %>
-                            <input type="radio" name="<%= q.getQuestion() %>" value="<%= q.getAlternatives()[i] %>"><%=q.getAlternatives()[i] %>
+                <div class="row">
+                    <div class="col-md-6">
+                        <form method="post">
+                            <% for(Question q: Db.getQuestions()){ %>
+                                <h3>Question: <%= q.getQuestion() %></h3>
+                                <% for(int i=0; i<q.getAlternatives().length; i++){ %>
+                                    <div class="form-group">
+                                        <input type="radio" class="radio-inline" name="<%= q.getQuestion() %>" value="<%= q.getAlternatives()[i] %>"><%=q.getAlternatives()[i] %>
+                                    </div>
+                                <% } %>
                             <% } %>
-                            <hr>
-                    <% } %>
-                    <input type="submit" name="send" value="Enviar"/>
-                    <a href="profile.jsp" role="button">Voltar</a>
-                </form>       
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary mb-4" name="send" value="Enviar"/>
+                                <a class="btn btn-secondary mb-4" href="profile.jsp" role="button">Voltar</a>  
+                            </div> 
+                        </form>
+                    </div>
+                </div>
         <% } %>
     </body>
 </html>
