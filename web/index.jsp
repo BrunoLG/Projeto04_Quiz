@@ -9,9 +9,22 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <%@include file="WEB-INF/jspf/head.jspf" %>
+        <title>Login Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <div class="row login-container">
+                <div class="col-md-6 login-form">
+                    <h3>Login</h3>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Digite seu usuário" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btnSubmit" value="Login" />
+                        </div>
+                    </form>
+                </div>
+        </div>>
     </body>
 </html>
