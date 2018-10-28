@@ -3,7 +3,6 @@
     Created on : 28/10/2018, 00:47:52
     Author     : BrunoLG <bruno_lg1998@hotmail.com>
 --%>
-
 <%@page import="br.com.fatecpg.quiz.Historic"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="br.com.fatecpg.quiz.Db"%>
@@ -13,10 +12,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Quiz Page</title>
     </head>
     <body>
-        <%  if (session.getAttribute("user") ==  null || session.getAttribute("user") == ""){
+        <%  String user = (String) session.getAttribute("user");
+            if (user ==  null || user == ""){
                 response.sendRedirect("index.jsp");
             } else { %>
                 <h1>Quiz</h1>
@@ -29,17 +29,15 @@
                         }
                     }
                     Calendar calendar = Calendar.getInstance();
-                    String dateActual = calendar.get(Calendar.DATE) + "/" + 
-                                        calendar.get(Calendar.MONTH) + "/" + 
-                                        calendar.get(Calendar.YEAR) + " " +
-                                        calendar.get(Calendar.HOUR) + " : " +
-                                        calendar.get(Calendar.MINUTE);
-                    Historic h = new Historic((String) session.getAttribute("user"), result, dateActual);
+                    calendar.set(calendar.get(Calendar.DATE), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR),
+                                             calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE));
+
+                    Historic h = new Historic(user, result, calendar.getTime());
                     Db.getHistoric().add(h);
                 %>
                 <hr><hr>
                 <h1 style="color:blue">
-                    Nota: <u><%= 100*((result)/3.0) %></u>
+                    Nota: <u><%= ((result)/10.0) %></u>
                 </h1>
                 <% } %>
                 <h2>Test</h2>

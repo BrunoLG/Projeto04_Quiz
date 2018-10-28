@@ -4,6 +4,8 @@
     Author     : BrunoLG <bruno_lg1998@hotmail.com>
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="br.com.fatecpg.quiz.Historic"%>
 <%@page import="br.com.fatecpg.quiz.Db"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,7 +18,9 @@
     </head>
     <body class="bg-light">
         <%  String user = (String) session.getAttribute("user");
-            if (user ==  null || user == ""){
+            double result = 0;
+            int i = 0; int pos = 1;
+            if (user == null){
                 response.sendRedirect("index.jsp");
             } else { %>
         <div class="container">
@@ -29,6 +33,7 @@
                 </div>
             </div>
             <div class="row">
+                <%--  Ultimos Quizzes Realizados --%>
                 <div class="col-6 my-3">
                     <table class="table table-hover">   
                         <thead class="legenda">
@@ -39,28 +44,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% if(Db.searchArrayList(user) != true && user != "") {
-                                for(Historic h: Db.getHistoric()){ 
+                         <% DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                            if(Db.searchArrayList(user) == true && user != "") {
+                                for(Historic h: Db.sortArraybyDate(Db.getHistoric())){
                                     if (h.getUser().equals(user)) { %>
                                         <tr>
                                             <td><%= h.getUser() %></td>
                                             <td><%= h.getResult() %></td>
-                                            <td><%= h.getDate() %></td>
+                                            <td><%= df.format(h.getDate()) %></td>
                                         </tr>
+                                        <% result += h.getResult();
+                                           i++;
+                                        %>
                                     <% } %>
                                 <% } %>
                             <% } else {
-                                for(Historic h: Db.getHistoric()){ %>
+                                for(Historic h: Db.sortArraybyDate(Db.getHistoric())){ %>
                                     <tr>
                                         <td><%= h.getUser() %></td>
                                         <td><%= h.getResult() %></td>
-                                        <td><%= h.getDate() %></td>
+                                        <td><%= df.format(h.getDate()) %></td>
                                     </tr>
                                 <%}%>
                             <%}%>
                         </tbody>                        
-                        </table>
+                    </table>
                 </div>
+                        
+                <%-- Ranking 10 Melhores --%>
                 <div class="col-6 my-3">
                     <table class="table table-hover">   
                         <thead class="legenda">
@@ -71,19 +82,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% for(Historic h: Db.getHistoric()){ %>
-                            <tr>    
-                                    <td><%= 1 %>º</td>
-                                    <td><%= h.getUser() %></td>
-                                    <td><%= h.getResult() %></td>
-                            </tr>
+                            <% for(Historic h: Db.sortArraybyResult(Db.getHistoric())){ %>
+                                <% if (pos <= 10) { %>
+                                    <tr>    
+                                        <td><%= pos++ %>º</td>
+                                        <td><%= h.getUser() %></td>
+                                        <td><%= h.getResult() %></td>
+                                    </tr>
+                                <% } %>  
                             <%}%>
                         </tbody>                        
                         </table>
                 </div>
             </div>                      
-            <center> 
-                <a class="btn btn-primary mb-4" href="quiz.jsp" role="button">Realizar Quiz</a>
+            <center>
+                <% if (Db.searchArrayList(user) == true){ %>
+                    <h2>Média: <%= result/i %></h2>
+                    <a class="btn btn-primary mb-4" href="quiz.jsp" role="button">Realizar Quiz</a>
+                <% } %>              
                 <a class="btn btn-secondary mb-4" href="logout.jsp" role="button">Log Out</a>
             </center>            
         </div>

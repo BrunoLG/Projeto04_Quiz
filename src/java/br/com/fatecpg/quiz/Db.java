@@ -6,6 +6,9 @@
 package br.com.fatecpg.quiz;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -30,10 +33,20 @@ public class Db {
     
     public static ArrayList<Historic> getHistoric(){
         ArrayList<Historic> historics = new ArrayList<>();
-        if (historics.isEmpty()){
-            historics.add(new Historic ("Bruno", 2.9, "20/02/2019 20:39"));
-            historics.add(new Historic ("Leonardo", 9.1, "10/02/2016 10:23"));
-            historics.add(new Historic ("Paolla", 6.5, "14/09/2017 15:29"));
+        Calendar cal = Calendar.getInstance();
+        
+        if (historics.isEmpty()){          
+            cal.set(2019, 2, 20, 20, 39);
+            historics.add(new Historic ("Bruno", 5.0, cal.getTime()));
+            
+            cal.set(2016, 2, 10, 10, 23);
+            historics.add(new Historic ("Leonardo", 9.1, cal.getTime())); 
+            
+            cal.set(2012, 2, 10, 5, 3);
+            historics.add(new Historic ("Bruno", 7.0, cal.getTime())); 
+            
+            cal.set(2017, 9, 14, 15, 29);
+            historics.add(new Historic ("Paolla", 6.5, cal.getTime()));
         }
         return historics;
     }
@@ -50,10 +63,40 @@ public class Db {
     
     public static boolean searchArrayList(String user) {
         for(User u: Db.getUser()){
-            if (u.getUser().contains(user) == true){
+            if (u.getUser().equals(user) == true){
                 return u.getUser().contains(user);
-            }      
+            }
         }           
         return false;
+    }
+    
+    public static ArrayList<Historic> sortArraybyDate(ArrayList<Historic> historics){
+        Collections.sort(historics, new Comparator<Historic>() {
+            @Override
+            public int compare(Historic h1, Historic h2) {
+                if (h1.getDate().after(h2.getDate())) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });    
+        return historics;
+    }
+    
+    public static ArrayList<Historic> sortArraybyResult(ArrayList<Historic> historics){
+        Collections.sort(historics, new Comparator<Historic>() {
+            @Override
+            public int compare(Historic h1, Historic h2) {
+                if (h1.getResult() < h2.getResult()) {
+                    return -1;
+                } else if(h1.getResult() == h2.getResult()){ 
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        });  
+        return historics;
     }
 }

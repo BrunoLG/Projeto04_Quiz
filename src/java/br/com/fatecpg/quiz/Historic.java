@@ -5,6 +5,9 @@
  */
 package br.com.fatecpg.quiz;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  *
  * @author BrunoLG <bruno_lg1998@hotmail.com>
@@ -12,9 +15,9 @@ package br.com.fatecpg.quiz;
 public class Historic {
     private String user;
     private double result;
-    private String date;
+    private Date date;
 
-    public Historic(String user, double result, String date) {
+    public Historic(String user, double result, Date date) {
         this.user = user;
         this.result = result;
         this.date = date;
@@ -36,11 +39,11 @@ public class Historic {
         this.result = result;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

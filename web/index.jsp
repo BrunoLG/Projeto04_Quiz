@@ -18,7 +18,7 @@
         <% if (request.getParameter("login") != null) { 
             String user = request.getParameter("user");
             
-            if(Db.searchArrayList(user)){
+            if(Db.searchArrayList(user) || user.equals("")){
                 session.setAttribute("user", user);
                 response.sendRedirect("profile.jsp");
             } else {
@@ -28,18 +28,15 @@
         <div class="row">
                 <div class="col-md-6">
                     <h3>Login</h3>
-                    <form method="get">
+                    <form method="post">
                         <div class="form-group">
                             <input type="text" class="form-control" name="user" placeholder="Digite seu usuário" value="" />
                         </div>
                         <div class="form-group">
                             <input type="submit" class="btn" value="Login" name="login" />
                         </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn" value="Login" name="login" />
-                        </div>
                     </form>
                 </div>
-        </div>>
+        </div>
     </body>
 </html>
