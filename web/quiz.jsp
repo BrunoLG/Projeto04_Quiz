@@ -36,22 +36,20 @@
                     calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
                                              calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE));
 
-                    Historic h = new Historic(user, result, calendar.getTime());
                     Db.getHistoric().add(new Historic(user, result, calendar.getTime()));
                 %>
                 <h1 style="color:blue">
                     Nota: <u><%= (result) %></u>
                 </h1>
                 <% } %>
-                <h2>Test</h2>
                 <div class="row">
                     <div class="col-md-6">
-                        <form method="post">
+                        <form>
                             <% for(Question q: Db.getQuestions()){ %>
                                 <h3>Question: <%= q.getQuestion() %></h3>
                                 <% for(int i=0; i<q.getAlternatives().length; i++){ %>
                                     <div class="form-group">
-                                        <input type="radio" class="radio-inline" name="<%= q.getQuestion() %>" value="<%= q.getAlternatives()[i] %>"><%=q.getAlternatives()[i] %>
+                                        <input type="radio" class="radio-inline" name="<%= q.getQuestion() %>" value="<%= q.getAlternatives()[i] %>" required><%=q.getAlternatives()[i] %>
                                     </div>
                                 <% } %>
                             <% } %>
