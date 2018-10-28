@@ -11,10 +11,10 @@ package br.com.fatecpg.quiz;
  */
 public class Historic {
     private String user;
-    private String result;
+    private double result;
     private String date;
 
-    public Historic(String user, String result, String date) {
+    public Historic(String user, double result, String date) {
         this.user = user;
         this.result = result;
         this.date = date;
@@ -28,11 +28,11 @@ public class Historic {
         this.user = user;
     }
 
-    public String getResult() {
+    public double getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(double result) {
         this.result = result;
     }
 

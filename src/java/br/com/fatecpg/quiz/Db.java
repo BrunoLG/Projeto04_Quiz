@@ -24,26 +24,36 @@ public class Db {
         questions.add(new Question ("5-1?", "4", new String[]{"1","2","3","4"}));
         questions.add(new Question ("3-2?", "1", new String[]{"1","2","3","4"}));
         questions.add(new Question ("4-2?", "2", new String[]{"1","2","3","4"}));
+        
         return questions;
     }
     
     public static ArrayList<Historic> getHistoric(){
         ArrayList<Historic> historics = new ArrayList<>();
         if (historics.isEmpty()){
-            historics.add(new Historic ("Bruno", "2,9", "20/02/2019 20:39"));
+            historics.add(new Historic ("Bruno", 2.9, "20/02/2019 20:39"));
+            historics.add(new Historic ("Leonardo", 9.1, "10/02/2016 10:23"));
+            historics.add(new Historic ("Paolla", 6.5, "14/09/2017 15:29"));
         }
         return historics;
     }
     
     public static ArrayList<User> getUser(){
         ArrayList<User> users = new ArrayList<>();
-        if (users.isEmpty()){
-            users.add(new User ("Bruno", "123"));
-            users.add(new User ("Paolla", "123"));
-            users.add(new User ("Nicolas", "123"));
-            users.add(new User ("Anderson", "123"));
-            users.add(new User ("Leonardo", "123"));
-        }
+        users.add(new User ("Bruno"));
+        users.add(new User ("Paolla"));
+        users.add(new User ("Nicolas"));
+        users.add(new User ("Anderson"));
+        users.add(new User ("Leonardo"));
         return users;
+    }
+    
+    public static boolean searchArrayList(String user) {
+        for(User u: Db.getUser()){
+            if (u.getUser().contains(user) == true){
+                return u.getUser().contains(user);
+            }      
+        }           
+        return false;
     }
 }

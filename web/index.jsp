@@ -4,6 +4,8 @@
     Author     : BrunoLG <bruno_lg1998@hotmail.com>
 --%>
 
+<%@page import="java.util.Arrays"%>
+<%@page import="br.com.fatecpg.quiz.Db"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,15 +15,28 @@
         <title>Login Page</title>
     </head>
     <body>
-        <div class="row login-container">
-                <div class="col-md-6 login-form">
+        <% if (request.getParameter("login") != null) { 
+            String user = request.getParameter("user");
+            
+            if(Db.searchArrayList(user)){
+                session.setAttribute("user", user);
+                response.sendRedirect("profile.jsp");
+            } else {
+                response.sendRedirect("index.jsp");
+            }
+        }%>
+        <div class="row">
+                <div class="col-md-6">
                     <h3>Login</h3>
-                    <form>
+                    <form method="get">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Digite seu usuário" value="" />
+                            <input type="text" class="form-control" name="user" placeholder="Digite seu usuário" value="" />
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="btnSubmit" value="Login" />
+                            <input type="submit" class="btn" value="Login" name="login" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn" value="Login" name="login" />
                         </div>
                     </form>
                 </div>
