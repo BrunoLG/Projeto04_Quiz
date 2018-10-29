@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.fatecpg.quiz;
 
 import java.util.ArrayList;
@@ -10,10 +5,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 
-/**
- *
- * @author BrunoLG <bruno_lg1998@hotmail.com>
- */
 public class Db {
    
     public static ArrayList<Question> getQuestions(){
@@ -40,14 +31,14 @@ public class Db {
         Calendar cal = Calendar.getInstance();
         
         if (historics.isEmpty()){          
-            cal.set(2019, 2, 20, 20, 39);
-            historics.add(new Historic ("Bruno", 5.0, cal.getTime()));
+            cal.set(2012, 2, 20, 20, 39);
+            historics.add(new Historic ("Bruno", 5.5, cal.getTime()));
             
             cal.set(2016, 2, 10, 10, 23);
-            historics.add(new Historic ("Leonardo", 9.1, cal.getTime())); 
+            historics.add(new Historic ("Leonardo", 9.0, cal.getTime())); 
             
             cal.set(2012, 2, 10, 5, 3);
-            historics.add(new Historic ("Bruno", 7.0, cal.getTime())); 
+            historics.add(new Historic ("Nicolas", 7.0, cal.getTime())); 
             
             cal.set(2017, 9, 14, 15, 29);
             historics.add(new Historic ("Paolla", 6.5, cal.getTime()));
@@ -55,8 +46,9 @@ public class Db {
         return historics;
     }
     
+    private static final ArrayList<User> users = new ArrayList<>();
+    
     public static ArrayList<User> getUser(){
-        ArrayList<User> users = new ArrayList<>();
         users.add(new User ("Bruno"));
         users.add(new User ("Paolla"));
         users.add(new User ("Nicolas"));

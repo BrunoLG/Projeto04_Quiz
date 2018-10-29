@@ -12,8 +12,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Quiz Page</title>
         <%@include file="WEB-INF/jspf/head.jspf" %>
+        <title>Quiz Page</title>
     </head>
     <body>
         <%  String user = (String) session.getAttribute("user");
@@ -31,16 +31,13 @@
                         }
                     }
                     
-                    
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
-                                             calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE));
+                                             calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
                     Db.getHistoric().add(new Historic(user, result, calendar.getTime()));
                 %>
-                <h1 style="color:blue">
-                    Nota: <u><%= (result) %></u>
-                </h1>
+                <h1>Nota: <%= (result) %></h1>
                 <% } %>
                 <div class="row">
                     <div class="col-md-6">

@@ -14,16 +14,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Profile Page</title>
         <%@include file="WEB-INF/jspf/head.jspf" %>
+        <title>Profile Page</title>
     </head>
     <body class="bg-light">
-        <%  String user = (String) session.getAttribute("user");
-            double result = 0;
-            int i = 0; int pos = 1;
-            if (user == null){
-                response.sendRedirect("index.jsp");
-            } else { %>
+ <% String user = (String) session.getAttribute("user");
+    double result = 0; int i = 0; int pos = 1;
+    if (user == null){
+        response.sendRedirect("index.jsp");
+    } else { %>
         <div class="container">
             <div class="row">
                 <div class="col-6 text-center my-3">

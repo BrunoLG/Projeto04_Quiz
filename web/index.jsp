@@ -4,6 +4,7 @@
     Author     : BrunoLG <bruno_lg1998@hotmail.com>
 --%>
 
+<%@page import="br.com.fatecpg.quiz.User"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="br.com.fatecpg.quiz.Db"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,28 +16,51 @@
         <title>Login Page</title>
     </head>
     <body>
-        <% if (request.getParameter("login") != null) { 
+        <% if (request.getParameter("login") != null || request.getParameter("cadastrar") != null) {
             String user = request.getParameter("user");
             
-            if(Db.searchArrayList(user) || user.equals("")){
-                session.setAttribute("user", user);
-                response.sendRedirect("profile.jsp");
+            if (request.getParameter("login") != null){
+                if(Db.searchArrayList(user) || user.equals("")){
+                    session.setAttribute("user", user);
+                    response.sendRedirect("profile.jsp");
+                } else {
+                    response.sendRedirect("index.jsp");
+                } 
             } else {
+                Db.getUser().add(new User(user));
                 response.sendRedirect("index.jsp");
             }
-        }%>
-        <div class="row">
+                
+        } else if (request.getParameter("cadastro") != null) { %>
+            <div class="row">
                 <div class="col-md-6">
-                    <h3>Login</h3>
-                    <form method="post">
+                    <h3>Cadastrar</h3>
+                    <form>
                         <div class="form-group">
                             <input type="text" class="form-control" name="user" placeholder="Digite seu usuário" value="" />
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="btn" value="Login" name="login" />
+                            <input type="submit" class="btn btn-primary mb-4" value="Cadastrar" name="cadastrar" />
+                            <a class="btn btn-secondary mb-4" href="index.jsp" role="button">Voltar</a>
                         </div>
                     </form>
                 </div>
-        </div>
+            </div>
+        <% } else {%>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Login</h3>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="user" placeholder="Digite seu usuário" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-secondary mb-4" value="Login" name="login" />
+                            <input type="submit" class="btn btn-primary mb-4" value="Cadastrar" name="cadastro" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <% } %>
     </body>
 </html>
