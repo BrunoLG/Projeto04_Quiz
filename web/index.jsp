@@ -36,9 +36,9 @@
         <div class="container py-4">
             <div class="row">
                 <div class="col-md-6 col-sm-12 col-lg-4">
-                    <h3>Cadastrar</h3>
+                    <p class="h3 mb-4">Cadastrar</p>
                     <form>
-                        <div class="form-group">
+                        <div class="form-group mb-4">
                             <input type="text" class="form-control" name="user" placeholder="Digite seu usuário" value="" />
                         </div>
                         <div class="form-group">
@@ -53,9 +53,9 @@
         <div class="container py-4">
             <div class="row">
                 <div class="col-md-6 col-sm-12 col-lg-4">
-                    <p class="h3">Login</p>
+                    <p class="h3 mb-4">Login</p>
                     <form>
-                        <div class="form-group">
+                        <div class="form-group mb-4">
                             <input type="text" class="form-control" name="user" placeholder="Digite seu usuário" value="" />
                         </div>
                         <div class="form-group">
