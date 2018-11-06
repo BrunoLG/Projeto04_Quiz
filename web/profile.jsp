@@ -17,10 +17,11 @@
         <%@include file="WEB-INF/jspf/head.jspf" %>
         <title>Profile Page</title>
     </head>
-    <% String user = (String) session.getAttribute("user");
+    <%  String user = (String) session.getAttribute("user");
+        DecimalFormat dF = new DecimalFormat("#.#");
         double result = 0;
-        int i = 0;
-        int pos = 1;
+        int ac = 0;
+        int pos;
         if (user == null) {
             response.sendRedirect("index.jsp");
         } else { %>
@@ -31,9 +32,7 @@
                 <li class="nav-item">
                     <a class="btn btn-light font-weight-bold mr-2" href="logout.jsp" role="button">Log Out</a>
                 </li>
-                <% if (Db.searchArrayList(user) == true) {
-                        DecimalFormat dF = new DecimalFormat("#.#");
-                %>
+                <% if (Db.searchArrayList(user) == true) { %>
                 <li class="nav-item">
                     <a class="btn btn-primary font-weight-bold" href="quiz.jsp" role="button">Realizar Quiz</a>
                 </li>
@@ -54,29 +53,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                            <% DateFormat df = new SimpleDateFormat("dd/MM/yyyy - HH:mm");
                                 if (Db.searchArrayList(user) == true && user != "") {
+                                    pos = 1;
                                     for (Historic h : Db.sortArraybyDate(Db.getHistoric())) {
-                                        if (h.getUser().equals(user)) {%>
-                            <tr>
-                                <td><%= h.getUser()%></td>
-                                <td><%= h.getResult()%></td>
-                                <td><%= df.format(h.getDate())%></td>
-                            </tr>
-                            <% result += h.getResult();
-                                i++;
-                            %>
-                            <% } %>
-                            <% } %>
-                            <% } else {
-                                for (Historic h : Db.sortArraybyDate(Db.getHistoric())) {%>
-                            <tr>
-                                <td><%= h.getUser()%></td>
-                                <td><%= h.getResult()%></td>
-                                <td><%= df.format(h.getDate())%></td>
-                            </tr>
-                            <%}%>
-                            <%}%>
+                                        if (h.getUser().equals(user)) {
+                                            if (pos++ <= 10) {%>
+                                                <tr>
+                                                    <td><%= h.getUser()%></td>
+                                                    <td><%= h.getResult()%></td>
+                                                    <td><%= df.format(h.getDate())%></td>
+                                                </tr>
+                                            <% } %>
+                                            <% result += h.getResult();
+                                                ac++;
+                                            %>
+                                        <% } %>
+                                    <% } %>
+                                <% } else {
+                                    pos = 1;
+                                    for (Historic h : Db.sortArraybyDate(Db.getHistoric())) {
+                                        if (pos++ <= 10) {%>
+                                        <tr>
+                                            <td><%= h.getUser()%></td>
+                                            <td><%= h.getResult()%></td>
+                                            <td><%= df.format(h.getDate())%></td>
+                                        </tr>
+                                        <% } %>
+                                    <% } %>
+                                <% } %>
                         </tbody>                        
                     </table>
                 </div>
@@ -93,8 +98,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% for (Historic h : Db.sortArraybyResult(Db.getHistoric())) { %>
-                            <% if (pos <= 10) {%>
+                            <% pos = 1;
+                            for (Historic h : Db.sortArraybyResult(Db.getHistoric())) { 
+                            if (pos <= 10) {%>
                             <tr>    
                                 <td><%= pos++%>º</td>
                                 <td><%= h.getUser()%></td>
@@ -106,10 +112,9 @@
                     </table>
                 </div>
             </div>                      
-            <% if (Db.searchArrayList(user) == true) {
-                    DecimalFormat dF = new DecimalFormat("#.#");%>
-            <div class="text-center">
-                <h2 class="display-3"><%= dF.format(result / i)%></h2>
+            <% if (Db.searchArrayList(user) == true) { %>                  
+                <div class="text-center">
+                <h2 class="display-3"><%= dF.format(result / ac)%></h2>
                 <p class="h4">Média</p>
             </div>
             <% } %>              
