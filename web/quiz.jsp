@@ -58,11 +58,11 @@
                         <% for (Question q : Db.getQuestions()) {%>
                         <div class="py-2">
                             <div class="bg-dark p-2 mb-4">
-                                <p class="h3 text-white">Question: <%= q.getQuestion()%></p>
+                                <p class="h3 text-white"><%= q.getQuestion()%></p>
                             </div>
                             <% for (int i = 0; i < q.getAlternatives().length; i++) {%>
                             <div class="form-group">
-                                <input type="radio" class="radio-inline" name="<%= q.getQuestion()%>" value="<%= q.getAlternatives()[i]%>" required><%=q.getAlternatives()[i]%>
+                                <input type="radio" class="radio-inline" name="<%= q.getQuestion()%>" value="<%= q.getAlternatives()[i]%>" required> <%=q.getAlternatives()[i]%>
                             </div>
                             <% } %>
                         </div>
