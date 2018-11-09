@@ -4,6 +4,7 @@
     Author     : BrunoLG <bruno_lg1998@hotmail.com>
 --%>
 
+<%@page import="br.com.fatecpg.quiz.User"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -18,10 +19,10 @@
         <title>Profile Page</title>
     </head>
     <%  String user = (String) session.getAttribute("user");
-        DecimalFormat dF = new DecimalFormat("#.#");
+        DecimalFormat decimalFormat = new DecimalFormat("#.#");
+        decimalFormat.setMinimumFractionDigits(1);
         double result = 0;
         int ac = 0;
-        int pos;
         if (user == null) {
             response.sendRedirect("index.jsp");
         } else { %>
@@ -32,7 +33,7 @@
                 <li class="nav-item">
                     <a class="btn btn-light font-weight-bold mr-2" href="logout.jsp" role="button">Log Out</a>
                 </li>
-                <% if (Db.searchArrayList(user) == true) { %>
+                <% if (User.searchUser(user) == true) { %>
                 <li class="nav-item">
                     <a class="btn btn-primary font-weight-bold" href="quiz.jsp" role="button">Realizar Quiz</a>
                 </li>
@@ -54,15 +55,14 @@
                         </thead>
                         <tbody>
                             <% DateFormat df = new SimpleDateFormat("dd/MM/yyyy - HH:mm");
-                                if (Db.searchArrayList(user) == true && user != "") {
-                                    pos = 1;
-                                    for (Historic h : Db.sortArraybyDate(Db.getHistoric())) {
+                                if (User.searchUser(user) == true && user != "") {
+                                    for (Historic h : Historic.sortArraybyDate(Db.getHistoric())) {
                                         if (h.getUser().equals(user)) {
-                                            if (pos++ <= 10) {%>
+                                            if (Db.getHistoric().indexOf(h) < 10) {%>
                                                 <tr>
-                                                    <td><%= h.getUser()%></td>
-                                                    <td><%= h.getResult()%></td>
-                                                    <td><%= df.format(h.getDate())%></td>
+                                                    <td><%= h.getUser() %></td>
+                                                    <td><%= decimalFormat.format(h.getResult()) %></td>
+                                                    <td><%= df.format(h.getDate()) %></td>
                                                 </tr>
                                             <% } %>
                                             <% result += h.getResult();
@@ -70,14 +70,16 @@
                                             %>
                                         <% } %>
                                     <% } %>
+                                    <% if (ac == 0) { %>
+                                        <tr><td>Sem históricos</td></tr>
+                                    <% } %>
                                 <% } else {
-                                    pos = 1;
-                                    for (Historic h : Db.sortArraybyDate(Db.getHistoric())) {
-                                        if (pos++ <= 10) {%>
+                                    for (Historic h : Historic.sortArraybyDate(Db.getHistoric())) {
+                                        if (Db.getHistoric().indexOf(h) < 10) {%>
                                         <tr>
-                                            <td><%= h.getUser()%></td>
-                                            <td><%= h.getResult()%></td>
-                                            <td><%= df.format(h.getDate())%></td>
+                                            <td><%= h.getUser() %></td>
+                                            <td><%= decimalFormat.format(h.getResult()) %></td>
+                                            <td><%= df.format(h.getDate()) %></td>
                                         </tr>
                                         <% } %>
                                     <% } %>
@@ -97,29 +99,31 @@
                                 <th>Nota</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <% pos = 1;
-                            for (Historic h : Db.sortArraybyResult(Db.getHistoric())) { 
-                            if (pos <= 10) {%>
-                            <tr>    
-                                <td><%= pos++%>º</td>
-                                <td><%= h.getUser()%></td>
-                                <td><%= h.getResult()%></td>
-                            </tr>
-                            <% } %>  
-                            <%}%>
+                        <tbody>   
+                           <% for (Historic h : Historic.sortArraybyResult(Db.getHistoric())) { 
+                                if (Db.getHistoric().indexOf(h) < 10) { %>
+                                    <tr>    
+                                        <td><%= Db.getHistoric().indexOf(h) + 1 %>º</td>
+                                        <td><%= h.getUser() %></td>
+                                        <td><%= decimalFormat.format(h.getResult()) %></td>
+                                    </tr>
+                                <% } %>  
+                            <% } %>
                         </tbody>                        
                     </table>
                 </div>
             </div>                      
-            <% if (Db.searchArrayList(user) == true) { %>                  
+            <% if (User.searchUser(user) == true) { %>                  
                 <div class="text-center">
-                <h2 class="display-3"><%= dF.format(result / ac)%></h2>
+                <% if (ac == 0) { %>
+                    <h2 class="display-3">0</h2>
+                <% } else { %>
+                    <h2 class="display-3"><%= decimalFormat.format(result / ac) %></h2>
+                <% } %>
                 <p class="h4">Média</p>
             </div>
-            <% } %>              
-
+            <% } %>
         </div>
-        <% }%>
+        <% } %>
     </body>
 </html>

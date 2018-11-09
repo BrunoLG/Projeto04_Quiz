@@ -1,5 +1,8 @@
 package br.com.fatecpg.quiz;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class Historic {
@@ -36,4 +39,38 @@ public class Historic {
     public void setDate(Date date) {
         this.date = date;
     }
+    
+    public static ArrayList<Historic> sortArraybyDate(ArrayList<Historic> historics){
+        Collections.sort(historics, new Comparator<Historic>() {
+            @Override
+            public int compare(Historic h1, Historic h2) {
+                if (h1.getDate().after(h2.getDate())) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });    
+        return historics;
+    }
+    
+    public static ArrayList<Historic> sortArraybyResult(ArrayList<Historic> historics){
+        Collections.sort(historics, new Comparator<Historic>() {
+            @Override
+            public int compare(Historic h1, Historic h2) {
+                if (h1.getResult() > h2.getResult()) {
+                    return -1;
+                } else if(h1.getResult() == h2.getResult()){ 
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        });
+        
+        
+        return historics;
+    }
+    
+    
 }

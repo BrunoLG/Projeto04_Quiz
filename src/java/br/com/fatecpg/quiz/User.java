@@ -14,4 +14,13 @@ public class User {
     public void setUser(String user) {
         this.user = user;
     }
+    
+    public static boolean searchUser(String user) {
+        for(User u: Db.getUser()){
+            if (u.getUser().equals(user)){
+                return true;
+            }
+        }           
+        return false;
+    }
 }
