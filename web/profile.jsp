@@ -23,7 +23,7 @@
         decimalFormat.setMinimumFractionDigits(1);
         double result = 0;
         int ac = 0;
-        int pos = 0;
+        int pos;
         if (user == null) {
             response.sendRedirect("index.jsp");
         } else { %>
@@ -56,6 +56,7 @@
                         </thead>
                         <tbody>
                             <% DateFormat df = new SimpleDateFormat("dd/MM/yyyy - HH:mm");
+                                pos = 0;
                                 if (User.searchUser(user) == true && user != "") {
                                     for (Historic h : Historic.sortArraybyDate(Db.getHistoric())) {
                                         if (h.getUser().equals(user)) {
@@ -101,7 +102,8 @@
                             </tr>
                         </thead>
                         <tbody>   
-                           <% for (Historic h : Historic.sortArraybyResult(Db.getHistoric())) { 
+                           <%   pos = 0;
+                               for (Historic h : Historic.sortArraybyResult(Db.getHistoric())) { 
                                 if (pos++ < 10) { %>
                                     <tr>    
                                         <td><%= Db.getHistoric().indexOf(h) + 1 %>º</td>
