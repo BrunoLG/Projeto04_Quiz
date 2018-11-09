@@ -23,6 +23,7 @@
         decimalFormat.setMinimumFractionDigits(1);
         double result = 0;
         int ac = 0;
+        int pos = 0;
         if (user == null) {
             response.sendRedirect("index.jsp");
         } else { %>
@@ -58,7 +59,7 @@
                                 if (User.searchUser(user) == true && user != "") {
                                     for (Historic h : Historic.sortArraybyDate(Db.getHistoric())) {
                                         if (h.getUser().equals(user)) {
-                                            if (Db.getHistoric().indexOf(h) < 10) {%>
+                                            if (pos++ < 10) {%>
                                                 <tr>
                                                     <td><%= h.getUser() %></td>
                                                     <td><%= decimalFormat.format(h.getResult()) %></td>
@@ -75,7 +76,7 @@
                                     <% } %>
                                 <% } else {
                                     for (Historic h : Historic.sortArraybyDate(Db.getHistoric())) {
-                                        if (Db.getHistoric().indexOf(h) < 10) {%>
+                                        if (pos++ < 10) {%>
                                         <tr>
                                             <td><%= h.getUser() %></td>
                                             <td><%= decimalFormat.format(h.getResult()) %></td>
@@ -101,7 +102,7 @@
                         </thead>
                         <tbody>   
                            <% for (Historic h : Historic.sortArraybyResult(Db.getHistoric())) { 
-                                if (Db.getHistoric().indexOf(h) < 10) { %>
+                                if (pos++ < 10) { %>
                                     <tr>    
                                         <td><%= Db.getHistoric().indexOf(h) + 1 %>º</td>
                                         <td><%= h.getUser() %></td>
